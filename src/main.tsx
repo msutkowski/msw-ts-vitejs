@@ -5,6 +5,7 @@ import App from "./App";
 import { setupWorker, rest } from "msw";
 
 const worker = setupWorker(
+  // Provide request handlers
   rest.get("https://example.com/user/:userId", (req, res, ctx) => {
     return res(
       ctx.json({
@@ -15,12 +16,12 @@ const worker = setupWorker(
   })
 );
 
-function prepare() {
+async function prepare() {
   if (import.meta.env.DEV) {
+    await import("./mockServiceWorker.js?worker");
+
     return worker.start();
   }
-
-  return Promise.resolve();
 }
 
 prepare().then(() => {
