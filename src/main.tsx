@@ -18,8 +18,6 @@ const worker = setupWorker(
 
 async function prepare() {
   if (import.meta.env.DEV) {
-    await import("./mockServiceWorker.js?worker");
-
     return worker.start();
   }
 }
